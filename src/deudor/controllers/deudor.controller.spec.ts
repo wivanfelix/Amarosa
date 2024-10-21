@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DeudorController } from './deudor.controller';
-import { DeudorService } from './deudor.service';
+import { DeudorService } from '../services/deudor.service';
 
 describe('DeudorController', () => {
   let controller: DeudorController;

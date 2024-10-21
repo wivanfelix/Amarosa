@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AbonoController } from './abono.controller';
-import { AbonoService } from './abono.service';
+import { AbonoService } from '../services/abono.service';
 
 describe('AbonoController', () => {
   let controller: AbonoController;

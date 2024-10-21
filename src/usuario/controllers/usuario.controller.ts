@@ -13,8 +13,8 @@ import { UsuarioService } from '../services/usuario.service';
 export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
 
-  @Post()
-  createAdmin(@Body() createUsuarioDto: CreateUsuarioDto) {
-    return this.usuarioService.createAdmin(createUsuarioDto);
-  }
+  // @Post()
+  // createAdmin(@Body() createUsuarioDto: CreateUsuarioDto) {
+  //   return this.usuarioService.createAdmin(createUsuarioDto);
+  // }
 }

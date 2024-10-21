@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CobradorController } from './cobrador.controller';
-import { CobradorService } from './cobrador.service';
+import { CobradorService } from '../services/cobrador.service';
 
 describe('CobradorController', () => {
   let controller: CobradorController;

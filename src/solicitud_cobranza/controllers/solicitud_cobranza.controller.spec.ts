@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SolicitudCobranzaController } from './solicitud_cobranza.controller';
-import { SolicitudCobranzaService } from './solicitud_cobranza.service';
+import { SolicitudCobranzaService } from '../services/solicitud_cobranza.service';
 
 describe('SolicitudCobranzaController', () => {
   let controller: SolicitudCobranzaController;
@@ -11,7 +11,9 @@ describe('SolicitudCobranzaController', () => {
       providers: [SolicitudCobranzaService],
     }).compile();
 
-    controller = module.get<SolicitudCobranzaController>(SolicitudCobranzaController);
+    controller = module.get<SolicitudCobranzaController>(
+      SolicitudCobranzaController,
+    );
   });
 
   it('should be defined', () => {
