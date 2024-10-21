@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { CreateUsuarioDto } from '../dto/create-usuario.dto';
-import { Role } from 'src/auth/models/roles.models';
+// import { Role } from 'src/auth/models/roles.models';
 import { DatabaseService } from 'src/database/services/database.service';
 
 @Injectable()

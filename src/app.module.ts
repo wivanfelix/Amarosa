@@ -13,7 +13,7 @@ import { SolicitudCobranzaModule } from './solicitud_cobranza/solicitud_cobranza
 import { UsuarioModule } from './usuario/usuario.module';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from './auth/auth.module';
+// import { AuthModule } from './auth/auth.module';
 import config from './config';
 import { enviroments } from './environments';
 import * as Joi from 'joi';
@@ -38,7 +38,7 @@ import * as Joi from 'joi';
     AccionCobroModule,
     SolicitudCobranzaModule,
     DatabaseModule,
-    AuthModule,
+    // AuthModule,
     UsuarioModule,
   ],
   controllers: [AppController],
