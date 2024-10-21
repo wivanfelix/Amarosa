@@ -1,0 +1,189 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model abono {
+  Id_Abono    Int       @id @default(autoincrement())
+  Id_Credito  Int?
+  Id_Cobrador Int?
+  Monto       Float?
+  Fecha       DateTime? @db.DateTime(0)
+  credito     credito?  @relation(fields: [Id_Credito], references: [Id_Credito], onDelete: NoAction, onUpdate: NoAction, map: "abono_ibfk_1")
+  cobrador    cobrador? @relation(fields: [Id_Cobrador], references: [Id_Cobrador], onDelete: NoAction, onUpdate: NoAction, map: "abono_ibfk_2")
+
+  @@index([Id_Cobrador], map: "Id_Cobrador")
+  @@index([Id_Credito], map: "Id_Credito")
+}
+
+model accion_cobro {
+  Id_Accion   Int       @id @default(autoincrement())
+  Id_Credito  Int?
+  Id_Cobrador Int?
+  Tipo        String?   @db.VarChar(255)
+  Fecha       DateTime? @db.DateTime(0)
+  Estatus     String?   @db.VarChar(255)
+  credito     credito?  @relation(fields: [Id_Credito], references: [Id_Credito], onDelete: NoAction, onUpdate: NoAction, map: "accion_cobro_ibfk_1")
+  cobrador    cobrador? @relation(fields: [Id_Cobrador], references: [Id_Cobrador], onDelete: NoAction, onUpdate: NoAction, map: "accion_cobro_ibfk_2")
+
+  @@index([Id_Cobrador], map: "Id_Cobrador")
+  @@index([Id_Credito], map: "Id_Credito")
+}
+
+model cartera {
+  Id_Cartera      Int        @id @default(autoincrement())
+  Nombre          String?    @db.VarChar(255)
+  Nombre_Contacto String?    @db.VarChar(255)
+  Telefono        String?    @db.VarChar(255)
+  Email           String?    @db.VarChar(255)
+  Direccion       String?    @db.VarChar(255)
+  cobrador        cobrador[]
+}
+
+model cliente_empresa {
+  Id_Cliente       Int       @id @default(autoincrement())
+  Razon_Social     String?   @db.VarChar(255)
+  Nombre_Comercial String?   @db.VarChar(255)
+  Nit              String?   @db.VarChar(255)
+  Nombre_Contacto  String?   @db.VarChar(255)
+  Telefono         String?   @db.VarChar(8)
+  Email            String?   @db.VarChar(255)
+  Direccion        String?   @db.LongText
+  Estado           String?   @db.VarChar(255)
+  credito          credito[]
+  usuario          usuario[]
+}
+
+model cliente_individual {
+  Id_Cliente       Int       @id @default(autoincrement())
+  Primer_Nombre    String?   @db.VarChar(255)
+  Segundo_Nombre   String?   @db.VarChar(255)
+  Primer_Apellido  String?   @db.VarChar(255)
+  Segundo_Apellido String?   @db.VarChar(255)
+  Cui              String?   @db.VarChar(13)
+  Nit              String?   @db.VarChar(255)
+  Telefono         String?   @db.VarChar(8)
+  Email            String?   @db.VarChar(255)
+  Direccion        String?   @db.LongText
+  Estado           String?   @db.VarChar(255)
+  credito          credito[]
+  usuario          usuario[]
+}
+
+model cobrador {
+  Id_Cobrador      Int            @id @default(autoincrement())
+  Codigo_Cobrador  String?        @db.VarChar(255)
+  Id_Cartera       Int?
+  Primer_Nombre    String?        @db.VarChar(255)
+  Segundo_Nombre   String?        @db.VarChar(255)
+  Primer_Apellido  String?        @db.VarChar(255)
+  Segundo_Apellido String?        @db.VarChar(255)
+  Cui              String?        @db.VarChar(13)
+  Nit              String?        @db.VarChar(255)
+  Telefono         String?        @db.VarChar(8)
+  Email            String?        @db.VarChar(255)
+  Estado           String?        @db.VarChar(255)
+  abono            abono[]
+  accion_cobro     accion_cobro[]
+  cartera          cartera?       @relation(fields: [Id_Cartera], references: [Id_Cartera], onDelete: NoAction, onUpdate: NoAction, map: "cobrador_ibfk_1")
+  credito          credito[]
+
+  @@index([Id_Cartera], map: "Id_Cartera")
+}
+
+model credito {
+  Id_Credito            Int                 @id @default(autoincrement())
+  Id_Solicitud          Int?
+  Id_Deudor             Int?
+  Id_Cobrador           Int?
+  Tipo_Credito          String?             @db.VarChar(255)
+  Tipo_Cliente          String?             @db.VarChar(255)
+  Id_Cliente_Individual Int?
+  Id_Cliente_Empresa    Int?
+  Fecha_Inicio_Cobro    DateTime?           @db.DateTime(0)
+  Fecha_Fin_Cobro       DateTime?           @db.DateTime(0)
+  Monto_Inicial         Float?
+  Tasa_Mora             Float?
+  Fecha_Inicial_Mora    DateTime?           @db.DateTime(0)
+  Estado                String?             @db.VarChar(255)
+  abono                 abono[]
+  accion_cobro          accion_cobro[]
+  solicitud_cobranza    solicitud_cobranza? @relation(fields: [Id_Solicitud], references: [Id_Solicitud], onDelete: NoAction, onUpdate: NoAction, map: "credito_ibfk_1")
+  deudor                deudor?             @relation(fields: [Id_Deudor], references: [Id_Deudor], onDelete: NoAction, onUpdate: NoAction, map: "credito_ibfk_2")
+  cobrador              cobrador?           @relation(fields: [Id_Cobrador], references: [Id_Cobrador], onDelete: NoAction, onUpdate: NoAction, map: "credito_ibfk_3")
+  cliente_individual    cliente_individual? @relation(fields: [Id_Cliente_Individual], references: [Id_Cliente], onDelete: NoAction, onUpdate: NoAction, map: "credito_ibfk_4")
+  cliente_empresa       cliente_empresa?    @relation(fields: [Id_Cliente_Empresa], references: [Id_Cliente], onDelete: NoAction, onUpdate: NoAction, map: "credito_ibfk_5")
+
+  @@index([Id_Cliente_Empresa], map: "Id_Cliente_Empresa")
+  @@index([Id_Cliente_Individual], map: "Id_Cliente_Individual")
+  @@index([Id_Cobrador], map: "Id_Cobrador")
+  @@index([Id_Deudor], map: "Id_Deudor")
+  @@index([Id_Solicitud], map: "Id_Solicitud")
+}
+
+model deudor {
+  Id_Deudor         Int       @id @default(autoincrement())
+  Primer_Nombre     String?   @db.VarChar(255)
+  Segundo_Nombre    String?   @db.VarChar(255)
+  Primer_Apellido   String?   @db.VarChar(255)
+  Segundo_Apellido  String?   @db.VarChar(255)
+  Cui               String?   @db.VarChar(13)
+  Telefono          String?   @db.VarChar(8)
+  Direccion         String?   @db.LongText
+  Lugar_Trabajo     String?   @db.VarChar(255)
+  Direccion_Trabajo String?   @db.LongText
+  Telefono_Trabajo  String?   @db.VarChar(8)
+  credito           credito[]
+}
+
+model solicitud_cobranza {
+  Id_Solicitud            Int       @id @default(autoincrement())
+  Tipo_Credito            String?   @db.VarChar(255)
+  Nombres_Cliente         String?   @db.VarChar(255)
+  Apellidos_Cliente       String?   @db.VarChar(255)
+  Empresa_Cliente         String?   @db.VarChar(255)
+  Email_Cliente           String?   @db.VarChar(255)
+  Telefono_Cliente        String?   @db.VarChar(8)
+  Monto_Credito           String?   @db.VarChar(255)
+  Dias_En_Mora            String?   @db.VarChar(255)
+  Primer_Nombre_Deudor    String?   @db.VarChar(255)
+  Segundo_Nombre_Deudor   String?   @db.VarChar(255)
+  Primer_Apellido_Deudor  String?   @db.VarChar(255)
+  Segundo_Apellido_Deudor String?   @db.VarChar(255)
+  Cui_Deudor              String?   @db.VarChar(13)
+  Estado                  String?   @db.VarChar(255)
+  credito                 credito[]
+}
+
+model usuario {
+  Id_Usuario            Int                   @id @default(autoincrement())
+  Nombre                String                @db.VarChar(255)
+  Apellido              String                @db.VarChar(255)
+  Rol                   usuario_Rol
+  Tipo_Cliente          usuario_Tipo_Cliente?
+  Id_Cliente_Empresa    Int?
+  Id_Cliente_Individual Int?
+  Activo                Boolean               @default(true)
+  email                 String                @db.VarChar(255)
+  contrasena            String                @db.VarChar(255)
+  cliente_empresa       cliente_empresa?      @relation(fields: [Id_Cliente_Empresa], references: [Id_Cliente], onDelete: NoAction, onUpdate: NoAction, map: "usuario_ibfk_1")
+  cliente_individual    cliente_individual?   @relation(fields: [Id_Cliente_Individual], references: [Id_Cliente], onDelete: NoAction, onUpdate: NoAction, map: "usuario_ibfk_2")
+
+  @@index([Id_Cliente_Empresa], map: "Id_Cliente_Empresa")
+  @@index([Id_Cliente_Individual], map: "Id_Cliente_Individual")
+}
+
+enum usuario_Rol {
+  cobrador
+  cliente
+  admin
+}
+
+enum usuario_Tipo_Cliente {
+  individual
+  empresa
+}
