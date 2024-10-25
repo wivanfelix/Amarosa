@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DatabaseService } from 'src/database/services/database.service';
 import { CreateSolicitudCobranzaDto } from '../dto/create-solicitud_cobranza.dto';
+
 @Injectable()
 export class SolicitudCobranzaService {
   constructor(private databaseService: DatabaseService) {}
@@ -32,9 +33,13 @@ export class SolicitudCobranzaService {
   }
 
   async findOne(id: number) {
-    return this.databaseService.solicitud_cobranza.findUnique({
+    const solicitud = await this.databaseService.solicitud_cobranza.findUnique({
       where: { Id_Solicitud: id },
     });
+    if (!solicitud) {
+      throw new NotFoundException('Solicitud no encontrada');
+    }
+    return solicitud;
   }
 
   async aprobarSolicitud(id: number) {

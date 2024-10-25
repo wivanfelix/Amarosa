@@ -1,4 +1,4 @@
-import { IsString, IsOptional, Length } from 'class-validator';
+import { IsString, IsOptional, Length, IsInt } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateDeudorDto {
@@ -40,4 +40,9 @@ export class UpdateDeudorDto {
     example: '87654321',
   })
   readonly telefonoTrabajo?: string;
+
+  @IsInt()
+  @IsOptional()
+  @ApiProperty({ description: 'Localizable (1: sí, 0: no)', example: 0 })
+  readonly localizable?: number;
 }

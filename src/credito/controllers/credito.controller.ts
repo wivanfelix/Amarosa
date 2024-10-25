@@ -29,6 +29,16 @@ export class CreditoController {
     return this.creditoService.findOne(+id);
   }
 
+  @Patch('declarar-riesgoso/:id')
+  declararRiesgoso(@Param('id') id: string) {
+    return this.creditoService.declararRiesgoso(+id);
+  }
+
+  @Patch('declarar-irrecuperable/:id')
+  declararIrrecuperable(@Param('id') id: string) {
+    return this.creditoService.declararIrrecuperable(+id);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.creditoService.remove(+id);

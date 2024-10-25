@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsIn, Length } from 'class-validator';
+import { IsString, IsOptional, IsEmail, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateCobradorDto {
@@ -8,12 +8,11 @@ export class UpdateCobradorDto {
   @ApiProperty({ description: 'Teléfono del cobrador', example: '12345678' })
   readonly telefono?: string;
 
-  @IsString()
-  @IsIn(['activo', 'inactivo', 'suspendido'])
+  @IsEmail()
   @IsOptional()
   @ApiProperty({
-    description: 'Estado del cobrador: activo, inactivo o suspendido',
-    example: 'activo',
+    description: 'Email del cobrador',
+    example: 'email@example.com',
   })
-  readonly estado?: string;
+  readonly email?: string;
 }

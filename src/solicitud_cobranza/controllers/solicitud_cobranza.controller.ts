@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { SolicitudCobranzaService } from '../services/solicitud_cobranza.service';
 import { CreateSolicitudCobranzaDto } from '../dto/create-solicitud_cobranza.dto';
+
 @Controller('solicitud-cobranza')
 export class SolicitudCobranzaController {
   constructor(
@@ -30,12 +31,12 @@ export class SolicitudCobranzaController {
     return this.solicitudCobranzaService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch('aprobar/:id')
   aprobarSolicitud(@Param('id') id: string) {
     return this.solicitudCobranzaService.aprobarSolicitud(+id);
   }
 
-  @Patch(':id')
+  @Patch('rechazar/:id')
   rechazarSolicitud(@Param('id') id: string) {
     return this.solicitudCobranzaService.rechazarSolicitud(+id);
   }

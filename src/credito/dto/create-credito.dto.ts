@@ -64,7 +64,7 @@ export class CreateCreditoDto {
   readonly fechaInicialMora?: Date;
 
   @IsString()
-  @IsNotEmpty()
-  @ApiProperty({ description: 'Estado del crédito' })
-  readonly estado: string;
+  @IsOptional()
+  @ApiProperty({ description: 'Estado del crédito', default: 'recuperable' })
+  readonly estado: string = 'recuperable';
 }

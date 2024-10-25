@@ -35,6 +35,11 @@ export class DeudorController {
     return this.deudorService.update(+id, updateDeudorDto);
   }
 
+  @Patch('declarar-ilocalizable/:id')
+  declararIlocalizable(@Param('id') id: string) {
+    return this.deudorService.declararIlocalizable(+id);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.deudorService.remove(+id);

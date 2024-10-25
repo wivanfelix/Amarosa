@@ -53,9 +53,4 @@ export class CreateClienteIndividualDto {
   @IsOptional()
   @ApiProperty({ description: 'Dirección del cliente' })
   readonly direccion?: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({ description: 'Estado del cliente' })
-  readonly estado: string;
 }

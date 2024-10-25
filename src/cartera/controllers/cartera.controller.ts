@@ -1,6 +1,16 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { CarteraService } from '../services/cartera.service';
 import { CreateCarteraDto } from '../dto/create-cartera.dto';
+import { UpdateCarteraDto } from '../dto/update-cartera.dto';
+
 @Controller('cartera')
 export class CarteraController {
   constructor(private readonly carteraService: CarteraService) {}
@@ -18,6 +28,11 @@ export class CarteraController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.carteraService.findOne(+id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateCarteraDto: UpdateCarteraDto) {
+    return this.carteraService.update(+id, updateCarteraDto);
   }
 
   @Delete(':id')

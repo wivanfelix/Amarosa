@@ -1,25 +1,24 @@
-import { IsString, IsOptional, IsEmail, Length } from 'class-validator';
+import { IsString, IsOptional, IsEmail } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UpdateClienteEmpresaDto {
+export class UpdateCarteraDto {
   @IsString()
   @IsOptional()
   @ApiProperty({ description: 'Nombre del contacto' })
   readonly nombreContacto?: string;
 
-  @Length(8, 8)
   @IsString()
   @IsOptional()
-  @ApiProperty({ description: 'Teléfono del contacto' })
+  @ApiProperty({ description: 'Teléfono de la cartera' })
   readonly telefono?: string;
 
   @IsEmail()
   @IsOptional()
-  @ApiProperty({ description: 'Email del contacto' })
+  @ApiProperty({ description: 'Email de la cartera' })
   readonly email?: string;
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ description: 'Dirección de la empresa' })
+  @ApiProperty({ description: 'Dirección de la cartera' })
   readonly direccion?: string;
 }

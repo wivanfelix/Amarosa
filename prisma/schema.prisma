@@ -137,6 +137,7 @@ model deudor {
   Lugar_Trabajo     String?   @db.VarChar(255)
   Direccion_Trabajo String?   @db.LongText
   Telefono_Trabajo  String?   @db.VarChar(8)
+  localizable       Int       @default(1) @db.TinyInt
   credito           credito[]
 }
 

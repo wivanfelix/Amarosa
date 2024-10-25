@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  NotFoundException,
 } from '@nestjs/common';
 import { CobradorService } from '../services/cobrador.service';
 import { CreateCobradorDto } from '../dto/create-cobrador.dto';
@@ -26,17 +27,26 @@ export class CobradorController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cobradorService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const cobrador = await this.cobradorService.findOne(+id);
+    if (!cobrador) {
+      throw new NotFoundException('Cobrador no encontrado');
+    }
+    return cobrador;
   }
 
-  // @Patch(':id')
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() updateCobradorDto: UpdateCobradorDto,
-  // ) {
-  //   return this.cobradorService.update(+id, updateCobradorDto);
-  // }
+  @Get('cartera/:idCartera')
+  findAllByCartera(@Param('idCartera') idCartera: string) {
+    return this.cobradorService.findAllByCartera(+idCartera);
+  }
+
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateCobradorDto: UpdateCobradorDto,
+  ) {
+    return this.cobradorService.update(+id, updateCobradorDto);
+  }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
