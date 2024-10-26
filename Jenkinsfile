@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Clona el repositorio de GitHub
-                git url: 'https://github.com/tu-usuario/tu-repositorio.git', branch: 'main'
+                git url: 'https://github.com/wivanfelix/Amarosa.git', branch: 'main'
             }
         }
 
@@ -18,13 +18,15 @@ pipeline {
             steps {
                 // Instala las dependencias de Node.js
                 sh 'npm install'
+                sh 'npx prisma db pull'
+                sh 'npx prisma generate'
             }
         }
         
         stage('Build') {
             steps {
                 // Ejecuta el proceso de build, si aplica
-                sh 'npm run build'  // Ajusta este comando si tu proyecto usa otro script para construir
+                //sh 'npm run build'  // Ajusta este comando si tu proyecto usa otro script para construir
             }
         }
         
